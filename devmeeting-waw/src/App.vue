@@ -1,58 +1,41 @@
 <template>
   <div id="app">
-    <h2>Smartphones list</h2>
-    <ul>
-      <li v-for="(s, index) in smartphones">{{ s }} {{ index }}
-        <button @click="removeElem(index)" key>Remove</button>
-      </li>
-    </ul>
 
-    <p v-if="!smartphones.length">No products!</p>
+    <product-list
+        :products="products"
+        @remove-product="onRemoveProduct"
+    ></product-list>
+    <product-form
+        @add-product="onAddProduct"
+    ></product-form>
 
-    <form @submit.prevent="addElem()">
-      <input
-          type="text"
-          name="newVendor"
-          v-model="newElem"
-          v-validate="'required'"
-      >
-      <button>Add vendor</button>
-
-      <div v-show="errors.has('newVendor')">
-        {{ errors.first('newVendor') }}
-      </div>
-    </form>
   </div>
 </template>
 
 <script>
-// import HelloWorld from './components/HelloWorld.vue'
+import ProductList from './components/ProductList.vue'
+import ProductForm from './components/ProductForm.vue'
+import ProductItem from './components/ProductItem';
 
 export default {
   name: 'app',
-  // components: {
-  //   HelloWorld
-  // }
+  components: {
+    ProductList,
+    ProductItem,
+    ProductForm
+  },
   data() {
     return {
-      smartphones: ['Moto', 'Huawei'],
-      newElem: '' //init
+      products: ['Moto', 'Huawei'],
     }
   },
   methods: {
-    addElem() {
-      this.$validator.validateAll()
-        .then(result => {
-          if (!result) {
-            return;
-          }
-          this.smartphones.push(this.newElem);
-          this.newElem = ''; // clear input value on button pressed
-          this.$validator.reset(); // reset validator state
-        })
+    onAddProduct(product) {
+      this.products.push(product)
     },
-    removeElem(index) {
-      this.smartphones.splice(index, 1);
+    onRemoveProduct(index) {
+      console.log('remove', this.products[index])
+      this.products.splice(index, 1);
     }
   }
 }
