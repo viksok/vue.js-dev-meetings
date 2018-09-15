@@ -7,11 +7,11 @@ const app = new Vue({
   },
   methods: {
     addElem() {
-      this.smartphones.push(this.newElem)
-      this.newElem = '' // clear input value on button pressed
+      this.smartphones.push(this.newElem);
+      this.newElem = ''; // clear input value on button pressed
     },
     removeElem(index) {
-      this.smartphones.pop(index)
+      this.smartphones.splice(index, 1);
     }
   }
-})
+});
